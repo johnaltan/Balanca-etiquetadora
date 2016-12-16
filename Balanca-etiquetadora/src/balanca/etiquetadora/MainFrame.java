@@ -7,7 +7,10 @@ package balanca.etiquetadora;
 
 import com.sun.xml.internal.ws.util.StringUtils;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
@@ -21,6 +24,8 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
     }
 
     /**
@@ -43,8 +48,11 @@ public class MainFrame extends javax.swing.JFrame {
         jLResult = new javax.swing.JLabel();
         jLValor = new javax.swing.JLabel();
         jTFValor = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLDesc = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -85,6 +93,9 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        jLResult.setFont(new java.awt.Font("Cantarell", 1, 18)); // NOI18N
+        jLResult.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         jLValor.setText("Valor (R$):");
 
         jTFValor.setEditable(false);
@@ -95,6 +106,12 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Desc. Produto:");
+
+        jLDesc.setFont(new java.awt.Font("Cantarell", 1, 18)); // NOI18N
+        jLDesc.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLDesc.setText("          ");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -102,23 +119,28 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLResult, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jBGerar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
                             .addComponent(jLValor))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTFPreco)
-                            .addComponent(jTFPeso)
-                            .addComponent(jTFCodProd, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-                            .addComponent(jTFValor))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jTFPeso)
+                                .addComponent(jTFValor))
+                            .addComponent(jTFCodProd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTFPreco, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLResult, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jBGerar, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
 
@@ -131,7 +153,11 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTFCodProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLDesc)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTFPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
@@ -143,12 +169,14 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTFValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLValor))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-                .addComponent(jLResult, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
+                .addGap(18, 18, 18)
+                .addComponent(jLResult, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jBGerar)
-                .addContainerGap())
+                .addGap(49, 49, 49))
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLDesc, jTFCodProd, jTFPeso, jTFPreco, jTFValor});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -161,14 +189,43 @@ public class MainFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTFValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFValorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTFValorActionPerformed
+
+    private void jTFCodProdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFCodProdKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTFCodProdKeyTyped
+
+    private void jTFCodProdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFCodProdKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTFCodProdKeyReleased
+
+    private void jTFCodProdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFCodProdKeyPressed
+        // TODO add your handling code here:
+        trataEventoTextField(evt,jTFCodProd,jTFPreco);
+        jTFCodProd.setText(jTFCodProd.getText().replace(".",""));
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            LeitorCSV leitor = new LeitorCSV("produtos.csv", ";");
+            try{
+                Produto produto = leitor.buscaProduto(jTFCodProd.getText());
+                jLDesc.setText(produto.getDescricao());
+                jTFPreco.setText(String.valueOf(produto.getPrec()));
+                System.out.println(produto);
+            }catch (Exception e){
+                JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jTFCodProdKeyPressed
 
     private void jBGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGerarActionPerformed
         // TODO add your handling code here:
@@ -185,48 +242,30 @@ public class MainFrame extends javax.swing.JFrame {
             codProd = String.format("%05d", Integer.valueOf(jTFCodProd.getText()));
             valor = peso*precoQuilo;
             System.out.println("Valor sem arredondar: " + String.valueOf(valor));
-            valor = Calculador.arredonda(valor,2);            
+            valor = Calculador.arredonda(valor,2);
             codBarra = "2" + codProd + "0" + Calculador.calculaValorInteiroCodigo(valor);
             verificador = Calculador.calculaVerificador(codBarra);
-            codBarra += Integer.toString(verificador);            
-                       
+            codBarra += Integer.toString(verificador);
+
             jTFValor.setText(String.format("%.2f",valor).replace(',', '.'));
             jLResult.setText(codBarra);
         }catch(Exception e){
             jLResult.setForeground(Color.red);
             jLResult.setText("ERRO: " + e.getMessage());
-            
+
         }
-        
+
     }//GEN-LAST:event_jBGerarActionPerformed
-
-    private void jTFValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFValorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTFValorActionPerformed
-
-    private void jTFCodProdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFCodProdKeyPressed
-        // TODO add your handling code here:
-        trataEventoTextField(evt,jTFCodProd,jTFPreco);
-        jTFCodProd.setText(jTFCodProd.getText().replace(".",""));
-    }//GEN-LAST:event_jTFCodProdKeyPressed
-
-    private void jTFPrecoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFPrecoKeyPressed
-        // TODO add your handling code here:
-        trataEventoTextField(evt,jTFPreco,jTFPeso);
-    }//GEN-LAST:event_jTFPrecoKeyPressed
 
     private void jTFPesoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFPesoKeyPressed
         // TODO add your handling code here:
         trataEventoTextField(evt,jTFPeso,jBGerar);
     }//GEN-LAST:event_jTFPesoKeyPressed
 
-    private void jTFCodProdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFCodProdKeyReleased
+    private void jTFPrecoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFPrecoKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTFCodProdKeyReleased
-
-    private void jTFCodProdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFCodProdKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTFCodProdKeyTyped
+        trataEventoTextField(evt,jTFPreco,jTFPeso);
+    }//GEN-LAST:event_jTFPrecoKeyPressed
 
     public void trataEventoTextField(java.awt.event.KeyEvent evt, JTextField campoAtual,javax.swing.JComponent componentProx){
         int evtcod = evt.getKeyCode();
@@ -275,11 +314,13 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBGerar;
+    private javax.swing.JLabel jLDesc;
     private javax.swing.JLabel jLResult;
     private javax.swing.JLabel jLValor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTFCodProd;
     private javax.swing.JTextField jTFPeso;

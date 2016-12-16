@@ -37,11 +37,7 @@ public class Calculador {
     public static String calculaValorInteiroCodigo(double valor) throws Exception {
         if (valor >= 1000.0) throw new Exception("Valor além do suportado.");
         int valorInt, valorDec;
-        double valorArrendo = arredonda(valor,2);
-        valorInt = (int)valorArrendo;
-        valorDec = (int)(arredonda(valorArrendo - valorInt,2)*100);
-        valorInt = valorInt*100 + valorDec;
-        
+        valorInt  = (int)(arredonda(valor,2)*100);
         return String.format("%05d", valorInt);
     }
     

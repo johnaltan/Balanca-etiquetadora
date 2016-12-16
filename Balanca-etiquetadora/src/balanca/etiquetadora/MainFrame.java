@@ -230,13 +230,12 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void trataEventoTextField(java.awt.event.KeyEvent evt, JTextField campoAtual,javax.swing.JComponent componentProx){
         int evtcod = evt.getKeyCode();
-       // if(evtcod == KeyEvent.VK_ENTER) 
-        {
+        if(evtcod == KeyEvent.VK_ENTER) {
             String txt = campoAtual.getText();
             txt = txt.replace(',','.');
             txt = txt.replaceAll("[^0-9.]+", "");
             campoAtual.setText(txt);
-            if(evtcod == KeyEvent.VK_ENTER) componentProx.grabFocus();
+            componentProx.grabFocus();
         }
     }
     /**

@@ -5,12 +5,21 @@
  */
 package balanca.etiquetadora;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 /**
  *
  * @author paola
  */
 public class Calculador {
-    int calculaVerificador(String codigo){
+
+    /**
+     *
+     * @param codigo
+     * @return
+     */
+    public static int calculaVerificador(String codigo){
         int[] posImp, posPar;
         int i,somaImp = 0,somaPar = 0;
         for(i = 0;i < codigo.length(); i+=2){
@@ -25,15 +34,27 @@ public class Calculador {
         return i;
     }
     
-    String calculaValorInteiro(double valor){
-        int valorInt, valorDec = 0;
+    public static String calculaValorInteiroCodigo(double valor) throws Exception {
+        if (valor >= 1000.0) throw new Exception("Valor além do suportado.");
+        int valorInt, valorDec;
+        double valorArrendo = arredonda(valor,2);
+        valorInt = (int)valorArrendo;
+        valorDec = (int)(arredonda(valorArrendo - valorInt,2)*100);
+        valorInt = valorInt*100 + valorDec;
+        
+        return String.format("%05d", valorInt);
+    }
+    
+   
+    public static double arredonda(double valor, int casas) {
+        if (casas < 0) throw new IllegalArgumentException();
+        int valorDec, valorInt;
         valorInt = (int)valor;
-        valorDec = (int)((valor - valorInt)*1000);
+        valorDec = (int)((valor - valorInt)*Math.pow(10, casas+1));
         if ((valorDec % 10) >= 5)  valorDec = 1;
         else valorDec = 0;
         valorDec = (int)((valor - valorInt)*100) + valorDec;
-        valorInt = valorInt*100 + valorDec;
-        return String.format("%05d", valorInt);
+        return valorInt + valorDec/Math.pow(10, casas);        
     }
     
 }

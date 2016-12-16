@@ -6,6 +6,9 @@
 package balanca.etiquetadora;
 
 import com.sun.xml.internal.ws.util.StringUtils;
+import java.awt.Color;
+import java.awt.event.KeyEvent;
+import javax.swing.JTextField;
 
 /**
  *
@@ -45,9 +48,21 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel1.setText("Preço por kg:");
+        jLabel1.setText("Preço por kg (R$):");
 
         jLabel2.setText("Peso:");
+
+        jTFPreco.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTFPrecoKeyPressed(evt);
+            }
+        });
+
+        jTFPeso.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTFPesoKeyPressed(evt);
+            }
+        });
 
         jBGerar.setText("Gerar etiqueta");
         jBGerar.addActionListener(new java.awt.event.ActionListener() {
@@ -56,10 +71,24 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Cód. Produto");
+        jLabel3.setText("Cód. Produto:");
 
-        jLValor.setText("Valor");
+        jTFCodProd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTFCodProdKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTFCodProdKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTFCodProdKeyTyped(evt);
+            }
+        });
 
+        jLValor.setText("Valor (R$):");
+
+        jTFValor.setEditable(false);
+        jTFValor.setEnabled(false);
         jTFValor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTFValorActionPerformed(evt);
@@ -73,7 +102,8 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addComponent(jLResult, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jBGerar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -81,7 +111,6 @@ public class MainFrame extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
-                            .addComponent(jLResult)
                             .addComponent(jLValor))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -89,7 +118,7 @@ public class MainFrame extends javax.swing.JFrame {
                             .addComponent(jTFPeso)
                             .addComponent(jTFCodProd, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
                             .addComponent(jTFValor))
-                        .addGap(0, 28, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -98,26 +127,25 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(43, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jTFCodProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTFCodProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTFPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jTFPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTFPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLValor)
-                        .addGap(9, 9, 9)
-                        .addComponent(jLResult))
-                    .addComponent(jTFValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(42, 42, 42)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTFValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLValor))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addComponent(jLResult, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22)
                 .addComponent(jBGerar)
                 .addContainerGap())
         );
@@ -150,20 +178,23 @@ public class MainFrame extends javax.swing.JFrame {
         int verificador;
         String codProd;
         String codBarra;
-        Calculador calculador = new Calculador();
+        jLResult.setForeground(Color.black);
         try{
             peso = Double.valueOf(jTFPeso.getText());
             precoQuilo = Double.valueOf(jTFPreco.getText());
             codProd = String.format("%05d", Integer.valueOf(jTFCodProd.getText()));
-            valor = peso*precoQuilo;            
-            codBarra = "2" + codProd + "0" + calculador.calculaValorInteiro(valor);
-            verificador = calculador.calculaVerificador(codBarra);
+            valor = peso*precoQuilo;
+            System.out.println("Valor sem arredondar: " + String.valueOf(valor));
+            valor = Calculador.arredonda(valor,2);            
+            codBarra = "2" + codProd + "0" + Calculador.calculaValorInteiroCodigo(valor);
+            verificador = Calculador.calculaVerificador(codBarra);
             codBarra += Integer.toString(verificador);            
                        
-            jTFValor.setText(Double.toString(valor));
+            jTFValor.setText(String.format("%.2f",valor).replace(',', '.'));
             jLResult.setText(codBarra);
         }catch(Exception e){
-            jLResult.setText(e.getMessage());
+            jLResult.setForeground(Color.red);
+            jLResult.setText("ERRO: " + e.getMessage());
             
         }
         
@@ -173,6 +204,41 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTFValorActionPerformed
 
+    private void jTFCodProdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFCodProdKeyPressed
+        // TODO add your handling code here:
+        trataEventoTextField(evt,jTFCodProd,jTFPreco);
+        jTFCodProd.setText(jTFCodProd.getText().replace(".",""));
+    }//GEN-LAST:event_jTFCodProdKeyPressed
+
+    private void jTFPrecoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFPrecoKeyPressed
+        // TODO add your handling code here:
+        trataEventoTextField(evt,jTFPreco,jTFPeso);
+    }//GEN-LAST:event_jTFPrecoKeyPressed
+
+    private void jTFPesoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFPesoKeyPressed
+        // TODO add your handling code here:
+        trataEventoTextField(evt,jTFPeso,jBGerar);
+    }//GEN-LAST:event_jTFPesoKeyPressed
+
+    private void jTFCodProdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFCodProdKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTFCodProdKeyReleased
+
+    private void jTFCodProdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFCodProdKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTFCodProdKeyTyped
+
+    public void trataEventoTextField(java.awt.event.KeyEvent evt, JTextField campoAtual,javax.swing.JComponent componentProx){
+        int evtcod = evt.getKeyCode();
+       // if(evtcod == KeyEvent.VK_ENTER) 
+        {
+            String txt = campoAtual.getText();
+            txt = txt.replace(',','.');
+            txt = txt.replaceAll("[^0-9.]+", "");
+            campoAtual.setText(txt);
+            if(evtcod == KeyEvent.VK_ENTER) componentProx.grabFocus();
+        }
+    }
     /**
      * @param args the command line arguments
      */

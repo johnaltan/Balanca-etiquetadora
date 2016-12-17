@@ -5,7 +5,6 @@
  */
 package balanca.etiquetadora;
 
-import com.sun.xml.internal.ws.util.StringUtils;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;

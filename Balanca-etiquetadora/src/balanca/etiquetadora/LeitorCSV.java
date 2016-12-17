@@ -22,7 +22,7 @@ public class LeitorCSV {
         this.separadorCSV = separadorCSV;
     }    
     
-    public Produto buscaProduto(String codigo) throws Exception{
+    public Produto buscaProduto(int codigo) throws Exception{
         String descricao="",linha;
         String[] campos = null;
         String codLido;

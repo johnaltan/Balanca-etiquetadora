@@ -10,21 +10,21 @@ package balanca.etiquetadora;
  * @author paola
  */
 public class Produto {
-    private String codigo;
+    private int codigo;
     private String descricao;
     private double prec;
 
-    public Produto(String codigo, String descricao, double prec) {
+    public Produto(int codigo, String descricao, double prec) {
         this.codigo = codigo;
         this.descricao = descricao;
         this.prec = prec;
     }   
 
-    public String getCodigo() {
+    public int getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(String codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 
@@ -44,6 +44,7 @@ public class Produto {
         this.prec = prec;
     }
     
+    @Override
     public String toString(){
         return "Codigo: " + codigo + " | Desc: " + descricao + " | Preço: " + Double.toString(prec);
     }

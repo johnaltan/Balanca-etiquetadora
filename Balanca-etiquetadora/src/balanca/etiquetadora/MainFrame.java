@@ -50,6 +50,7 @@ public class MainFrame extends javax.swing.JFrame {
         jTFValor = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLDesc = new javax.swing.JLabel();
+        jBImprimir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -112,6 +113,13 @@ public class MainFrame extends javax.swing.JFrame {
         jLDesc.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLDesc.setText("          ");
 
+        jBImprimir.setText("Imprimir");
+        jBImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBImprimirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -136,7 +144,10 @@ public class MainFrame extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jBGerar, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jBImprimir)
+                                .addGap(18, 18, 18)
+                                .addComponent(jBGerar))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18)
@@ -172,7 +183,9 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLResult, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jBGerar)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBGerar)
+                    .addComponent(jBImprimir))
                 .addGap(49, 49, 49))
         );
 
@@ -217,7 +230,7 @@ public class MainFrame extends javax.swing.JFrame {
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             LeitorCSV leitor = new LeitorCSV("produtos.csv", ";");
             try{
-                Produto produto = leitor.buscaProduto(jTFCodProd.getText());
+                Produto produto = leitor.buscaProduto(Integer.parseInt(jTFCodProd.getText()));
                 jLDesc.setText(produto.getDescricao());
                 jTFPreco.setText(String.valueOf(produto.getPrec()));
                 System.out.println(produto);
@@ -267,6 +280,14 @@ public class MainFrame extends javax.swing.JFrame {
         trataEventoTextField(evt,jTFPreco,jTFPeso);
     }//GEN-LAST:event_jTFPrecoKeyPressed
 
+    private void jBImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBImprimirActionPerformed
+        // TODO add your handling code here:
+        DriverImpressora driver = new DriverImpressora("/dev/usb/lp0");
+        Produto produto = new Produto(9,"C BV MAMINHA RF COOPERFRIGU",53.78);
+        String str = driver.editaLayout(new Etiqueta(produto,0.890,"ETIQUETA10_1"));
+        driver.escreveArquivo(str);
+    }//GEN-LAST:event_jBImprimirActionPerformed
+
     public void trataEventoTextField(java.awt.event.KeyEvent evt, JTextField campoAtual,javax.swing.JComponent componentProx){
         int evtcod = evt.getKeyCode();
         if(evtcod == KeyEvent.VK_ENTER) {
@@ -314,6 +335,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBGerar;
+    private javax.swing.JButton jBImprimir;
     private javax.swing.JLabel jLDesc;
     private javax.swing.JLabel jLResult;
     private javax.swing.JLabel jLValor;

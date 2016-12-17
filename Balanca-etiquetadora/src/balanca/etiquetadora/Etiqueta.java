@@ -32,7 +32,7 @@ public class Etiqueta {
         int verificador;
         String codBarra = null;
         try {
-            String codProd = String.format("%05d", produto.getCodigo());
+            String codProd = String.format("%05d", Integer.parseInt(produto.getCodigo()));
             codBarra = "2" + codProd + "0" + Calculador.calculaValorInteiroCodigo(valorFinal);
             if(comVerificador) {
                 verificador = Calculador.calculaVerificador(codBarra);

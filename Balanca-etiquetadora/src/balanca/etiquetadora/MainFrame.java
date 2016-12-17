@@ -235,7 +235,7 @@ public class MainFrame extends javax.swing.JFrame {
             LeitorCSV leitor = new LeitorCSV("produtos.csv", ";");
             try{
                 System.out.println(Integer.parseInt(jTFCodProd.getText()));
-                Produto produto = leitor.buscaProduto(Integer.parseInt(jTFCodProd.getText()));
+                Produto produto = leitor.buscaProduto(jTFCodProd.getText());
                 etiqueta.setProduto(produto);
                 jLDesc.setText(produto.getDescricao());
                 jTFPreco.setText(String.valueOf(produto.getPrec()));

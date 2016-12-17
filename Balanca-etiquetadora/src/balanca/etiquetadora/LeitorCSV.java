@@ -22,7 +22,7 @@ public class LeitorCSV {
         this.separadorCSV = separadorCSV;
     }    
     
-    public Produto buscaProduto(int codigo) throws Exception{
+    public Produto buscaProduto(String codigo) throws Exception{
         String descricao="",linha;
         String[] campos = null;
         String codLido;
@@ -34,7 +34,7 @@ public class LeitorCSV {
                 // use comma as separator
                 campos = linha.split(separadorCSV);
                 codLido = campos[1];
-                if (codLido.equals(String.valueOf(codigo))) break;
+                if (codLido.equals(codigo)) break;
             }
             if (linha == null) throw new Exception("Produto nao encontrado");
         } catch (IOException e) {

@@ -13,10 +13,10 @@ import jssc.SerialPortList;
  */
 public class TesteComunicacao {
     public static void main(String[] args){
-     String[] portNames = SerialPortList.getPortNames();
-        for(int i = 0; i < portNames.length; i++){
-        System.out.println(portNames[i]);
-        }
+        String[] portNames = SerialPortList.getPortNames();
+                for(int i = 0; i < portNames.length; i++){
+                System.out.println(portNames[i]);
+           }
     }
     
 }

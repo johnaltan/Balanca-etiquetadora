@@ -34,7 +34,7 @@ public class LeitorCSV {
                 // use comma as separator
                 campos = linha.split(separadorCSV);
                 codLido = campos[1];
-                if (codLido.equals(codigo)) break;
+                if (codLido.equals(String.valueOf(codigo))) break;
             }
             if (linha == null) throw new Exception("Produto nao encontrado");
         } catch (IOException e) {

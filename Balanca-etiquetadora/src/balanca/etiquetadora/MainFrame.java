@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -22,10 +23,13 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
+    private Etiqueta etiqueta;
+    
     public MainFrame() {
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        etiqueta = new Etiqueta(new File("ETIQUETA10_1"));
     }
 
     /**
@@ -230,10 +234,11 @@ public class MainFrame extends javax.swing.JFrame {
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             LeitorCSV leitor = new LeitorCSV("produtos.csv", ";");
             try{
+                System.out.println(Integer.parseInt(jTFCodProd.getText()));
                 Produto produto = leitor.buscaProduto(Integer.parseInt(jTFCodProd.getText()));
+                etiqueta.setProduto(produto);
                 jLDesc.setText(produto.getDescricao());
                 jTFPreco.setText(String.valueOf(produto.getPrec()));
-                System.out.println(produto);
             }catch (Exception e){
                 JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
             }
@@ -243,25 +248,13 @@ public class MainFrame extends javax.swing.JFrame {
     private void jBGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGerarActionPerformed
         // TODO add your handling code here:
         double peso = 0;
-        double precoQuilo = 0;
-        double valor = 0;
-        int verificador;
-        String codProd;
-        String codBarra;
         jLResult.setForeground(Color.black);
         try{
             peso = Double.valueOf(jTFPeso.getText());
-            precoQuilo = Double.valueOf(jTFPreco.getText());
-            codProd = String.format("%05d", Integer.valueOf(jTFCodProd.getText()));
-            valor = peso*precoQuilo;
-            System.out.println("Valor sem arredondar: " + String.valueOf(valor));
-            valor = Calculador.arredonda(valor,2);
-            codBarra = "2" + codProd + "0" + Calculador.calculaValorInteiroCodigo(valor);
-            verificador = Calculador.calculaVerificador(codBarra);
-            codBarra += Integer.toString(verificador);
-
-            jTFValor.setText(String.format("%.2f",valor).replace(',', '.'));
-            jLResult.setText(codBarra);
+            etiqueta.setPeso(peso);
+            etiqueta.calculaParametros();
+            jTFValor.setText(String.format("%.2f",etiqueta.getValorFinal()).replace(',', '.'));            
+            jLResult.setText(etiqueta.getCodigoBarras(true));
         }catch(Exception e){
             jLResult.setForeground(Color.red);
             jLResult.setText("ERRO: " + e.getMessage());
@@ -283,9 +276,9 @@ public class MainFrame extends javax.swing.JFrame {
     private void jBImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBImprimirActionPerformed
         // TODO add your handling code here:
         DriverImpressora driver = new DriverImpressora("/dev/usb/lp0");
-        Produto produto = new Produto(9,"C BV MAMINHA RF COOPERFRIGU",53.78);
-        String str = driver.editaLayout(new Etiqueta(produto,0.890,"ETIQUETA10_1"));
-        driver.escreveArquivo(str);
+        String str = driver.editaLayout(etiqueta);
+        driver.escreveArquivo(str,new File("saida"));
+        driver.imprime(str);
     }//GEN-LAST:event_jBImprimirActionPerformed
 
     public void trataEventoTextField(java.awt.event.KeyEvent evt, JTextField campoAtual,javax.swing.JComponent componentProx){

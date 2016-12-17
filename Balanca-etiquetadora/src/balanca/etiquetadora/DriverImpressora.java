@@ -41,21 +41,16 @@ public class DriverImpressora {
         int i,j,c;
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(etiqueta.getArquivoModelo()),"UTF8"))) {
             while ((linha = br.readLine()) != null) file += linha + "\n";
-            System.out.print(file);
-            System.out.println();
             Produto produto = etiqueta.getProduto();
-            file = file.replace("PESOB", String.format("%.3f",etiqueta.getPeso()).replace('.', ','));
+            file = file.replace("PESOB", String.format("%.3f kg",etiqueta.getPeso()).replace('.', ','));
             file = file.replace("DESCRICAO", produto.getDescricao());
             file = file.replace("VALOR", String.format("%.2f",etiqueta.getValorFinal()).replace('.', ','));
             file = file.replace("PRECO", String.format("%.2f",produto.getPrec()).replace('.', ','));
             i = file.indexOf(codPadrao);
             file = file.replace(codPadrao, codEtiqueta); //codigo de barras sem verificador
-            System.out.print(file);
             
             fileBuilder = new StringBuilder(file);
             j = fileBuilder.indexOf("\n", i);  //Encontra \n logo apos codigo
-            
-            System.out.println(file.substring(i, j));
             for(c = 0; c<11 ; c++) {
                 i = j + 1;
                 j = fileBuilder.indexOf("\n",i);
@@ -70,17 +65,14 @@ public class DriverImpressora {
             j = fileBuilder.indexOf("\n",i);
             fileBuilder.setCharAt(j-1, codEtiqueta.charAt(0));
             
-            file = new String(fileBuilder);
-            
-            System.out.println(file);            
+            file = new String(fileBuilder);      
         } catch (IOException e) {
             e.printStackTrace();
         }
         return file;
     }
     
-    void escreveArquivo(String str) {
-        File arquivo = new File("saida");
+    public void escreveArquivo(String str, File arquivo) {
         try {            
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(arquivo),"UTF-8"));
             bw.write(str);
@@ -90,4 +82,7 @@ public class DriverImpressora {
         }
     }
     
+    public void imprime(String str) {
+        escreveArquivo(str, new File(caminhoArqImpressora));
+    }    
 }

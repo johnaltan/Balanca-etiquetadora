@@ -23,6 +23,10 @@ public class Etiqueta {
         this.valorFinal = Calculador.arredonda(peso*produto.getPrec(),2);
         arquivoModelo = new File(caminhoModelo);        
     }
+
+    public Etiqueta(File arquivoModelo) {
+        this.arquivoModelo = arquivoModelo;
+    }    
     
     public String getCodigoBarras(boolean comVerificador) {
         int verificador;
@@ -39,6 +43,11 @@ public class Etiqueta {
         }
         return codBarra;
     }
+    
+    public void calculaParametros(){
+        this.valorFinal = peso*produto.getPrec();
+        System.out.println("Valor sem arredondar: " + String.valueOf(this.valorFinal));
+    }
 
     public Produto getProduto() {
         return produto;
@@ -46,9 +55,7 @@ public class Etiqueta {
 
     public void setProduto(Produto produto) {
         this.produto = produto;
-    }
-    
-    
+    }   
     
     public double getPeso() {
         return peso;

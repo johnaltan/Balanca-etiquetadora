@@ -402,6 +402,14 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
         
         
         try {
+            
+            PrintService[] printServices = PrintServiceLookup.lookupPrintServices(null, null);
+            System.out.println("Numero de processos de impressao: " + printServices.length);
+        
+       
+            for (PrintService printer : printServices)
+                System.out.println("Impressora: " + printer.getName());
+            
             String[] portNames = SerialPortList.getPortNames();
             System.out.println("Portas: ");
             for(String s : portNames) System.out.println(s);

@@ -100,14 +100,6 @@ public class DriverImpressora {
     
     public void imprime(String comandos, PrintService pservice){
         try {
-            
-            PrintService[] printServices = PrintServiceLookup.lookupPrintServices(null, null);
-            System.out.println("Number of print services: " + printServices.length);
-        
-       
-            for (PrintService printer : printServices)
-                System.out.println("Printer: " + printer.getName());
-            
             DocPrintJob job = pservice.createPrintJob();
             DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
             Doc doc = new SimpleDoc(comandos.getBytes(), flavor, null);

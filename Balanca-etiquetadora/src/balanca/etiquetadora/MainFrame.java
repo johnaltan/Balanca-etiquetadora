@@ -10,6 +10,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -277,7 +279,10 @@ public class MainFrame extends javax.swing.JFrame {
         DriverImpressora driver = new DriverImpressora("/dev/usb/lp0");
         String str = driver.editaLayout(etiqueta);
         driver.escreveArquivo(str,new File("saida"));
-        driver.imprime(str);
+        
+        PrintService[] printServices = PrintServiceLookup.lookupPrintServices(null, null);
+        
+        driver.imprime(str,printServices[0]);
     }//GEN-LAST:event_jBImprimirActionPerformed
 
     public void trataEventoTextField(java.awt.event.KeyEvent evt, JTextField campoAtual,javax.swing.JComponent componentProx){

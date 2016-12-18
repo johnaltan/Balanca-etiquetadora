@@ -16,6 +16,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import javax.print.Doc;
+import javax.print.DocFlavor;
+import javax.print.DocPrintJob;
+import javax.print.PrintException;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.SimpleDoc;
 
 /**
  *
@@ -27,6 +34,11 @@ public class DriverImpressora {
     public DriverImpressora(String caminhoArqImpressora){
         this.caminhoArqImpressora = caminhoArqImpressora;
     }
+
+    public DriverImpressora() {
+    }
+    
+    
     
     public void enviaEtiqueta(Etiqueta etiqueta) {
         
@@ -82,7 +94,27 @@ public class DriverImpressora {
         }
     }
     
-    public void imprime(String str) {
-        escreveArquivo(str, new File(caminhoArqImpressora));
-    }    
+    /*public void imprime(String comandos) {
+        escreveArquivo(comandos, new File(caminhoArqImpressora));       
+    }*/
+    
+    public void imprime(String comandos, PrintService pservice){
+        try {
+            
+            PrintService[] printServices = PrintServiceLookup.lookupPrintServices(null, null);
+            System.out.println("Number of print services: " + printServices.length);
+        
+       
+            for (PrintService printer : printServices)
+                System.out.println("Printer: " + printer.getName());
+            
+            DocPrintJob job = pservice.createPrintJob();
+            DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
+            Doc doc = new SimpleDoc(comandos.getBytes(), flavor, null);
+            job.print(doc, null);
+        }catch(PrintException e){
+            e.printStackTrace();
+        }
+        
+    }
 }

@@ -15,13 +15,15 @@ public class Etiqueta {
     private Produto produto;
     private double peso;
     private double valorFinal;
+    private double pesoEmb;
     private File arquivoModelo;
 
     public Etiqueta(Produto produto, double peso, String caminhoModelo) {
         this.produto = produto;
         this.peso = peso;
         this.valorFinal = Calculador.arredonda(peso*produto.getPrec(),2);
-        arquivoModelo = new File(caminhoModelo);        
+        arquivoModelo = new File(caminhoModelo);
+        pesoEmb = 0;
     }
 
     public Etiqueta(File arquivoModelo) {
@@ -44,10 +46,23 @@ public class Etiqueta {
         return codBarra;
     }
     
-    public void calculaParametros(){
-        this.valorFinal = peso*produto.getPrec();
+    public void calculaParametros() throws Exception{
+        double pesoLiq = peso - pesoEmb;
+        if(pesoLiq < 0) throw new Exception("Peso da embalagem maior que peso do produto!");
+        this.valorFinal = pesoLiq*produto.getPrec();
         System.out.println("Valor sem arredondar: " + String.valueOf(this.valorFinal));
+        System.out.println("Peso liq: " + String.valueOf(pesoLiq));
     }
+
+    public double getPesoEmb() {
+        return pesoEmb;
+    }
+
+    public void setPesoEmb(double pesoEmb) {
+        this.pesoEmb = pesoEmb;
+    }
+    
+    
 
     public Produto getProduto() {
         return produto;

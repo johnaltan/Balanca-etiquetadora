@@ -115,6 +115,8 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
         jLabel4 = new javax.swing.JLabel();
         jLDesc = new javax.swing.JLabel();
         jBImprimir = new javax.swing.JButton();
+        jTFPesoEmb = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -123,7 +125,7 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
 
         jLabel1.setText("Preço por kg (R$):");
 
-        jLabel2.setText("Peso:");
+        jLabel2.setText("Peso (kg):");
 
         jTFPreco.setEnabled(false);
         jTFPreco.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -204,6 +206,19 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
             }
         });
 
+        jTFPesoEmb.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTFPesoEmbFocusLost(evt);
+            }
+        });
+        jTFPesoEmb.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTFPesoEmbKeyPressed(evt);
+            }
+        });
+
+        jLabel5.setText("Peso embalagem (kg):");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -211,19 +226,6 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLValor))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTFPeso)
-                                .addComponent(jTFValor))
-                            .addComponent(jTFCodProd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTFPreco, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLResult, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -235,11 +237,27 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jLDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLValor)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTFValor))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTFPeso, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTFCodProd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTFPreco, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTFPesoEmb, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTFCodProd, jTFPeso, jTFPreco, jTFValor});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTFCodProd, jTFPeso, jTFPesoEmb, jTFPreco, jTFValor});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -248,7 +266,7 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTFCodProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLDesc)
                     .addComponent(jLabel4))
@@ -262,15 +280,19 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTFPesoEmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTFValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLValor))
-                .addGap(18, 18, 18)
+                .addGap(21, 21, 21)
                 .addComponent(jLResult, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBGerar)
                     .addComponent(jBImprimir))
-                .addGap(49, 49, 49))
+                .addContainerGap())
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLDesc, jTFCodProd, jTFPeso, jTFPreco, jTFValor});
@@ -288,8 +310,8 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -310,7 +332,7 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
 
     private void jTFCodProdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFCodProdKeyPressed
         // TODO add your handling code here:
-        trataEventoTextField(evt,jTFCodProd,jTFPreco,true); 
+        trataEventoTextField(evt,jTFCodProd,jTFPeso,true); 
     }//GEN-LAST:event_jTFCodProdKeyPressed
 
     private void jBGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGerarActionPerformed
@@ -321,7 +343,7 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
 
     private void jTFPesoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFPesoKeyPressed
         // TODO add your handling code here:
-        trataEventoTextField(evt,jTFPeso,jBGerar,false);
+        trataEventoTextField(evt,jTFPeso,jTFPesoEmb,false);
     }//GEN-LAST:event_jTFPesoKeyPressed
 
     private void jTFPrecoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFPrecoKeyPressed
@@ -365,11 +387,23 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
         corrigeCampoNumerico(jTFPeso,false);
     }//GEN-LAST:event_jTFPesoFocusLost
 
+    private void jTFPesoEmbFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFPesoEmbFocusLost
+        // TODO add your handling code here:
+        corrigeCampoNumerico(jTFPesoEmb,false);
+    }//GEN-LAST:event_jTFPesoEmbFocusLost
+
+    private void jTFPesoEmbKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFPesoEmbKeyPressed
+        // TODO add your handling code here:
+        trataEventoTextField(evt,jTFPesoEmb,jBGerar,false);
+    }//GEN-LAST:event_jTFPesoEmbKeyPressed
+
     private void geraEtiqueta() {
-        double peso = 0;
+        double peso = 0, pesoEmb;
         jLResult.setForeground(Color.black);
         try{
             peso = Double.valueOf(jTFPeso.getText());
+            pesoEmb = Double.valueOf(jTFPesoEmb.getText());
+            etiqueta.setPesoEmb(pesoEmb);
             etiqueta.setPeso(peso);
             etiqueta.calculaParametros();
             jTFValor.setText(String.format("%.2f",etiqueta.getValorFinal()).replace(',', '.'));            
@@ -489,9 +523,11 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTFCodProd;
     private javax.swing.JTextField jTFPeso;
+    private javax.swing.JTextField jTFPesoEmb;
     private javax.swing.JTextField jTFPreco;
     private javax.swing.JTextField jTFValor;
     // End of variables declaration//GEN-END:variables

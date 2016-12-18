@@ -64,6 +64,8 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
                     String str = new String(buf, 0, buf.length-2);
                     str = str.substring(0, 2) + "." + str.substring(2);
                     jTFPeso.setText(str);
+                    geraEtiqueta();
+                    mandaImprimir();
                 }
             }
             catch (SerialPortException ex) {
@@ -136,6 +138,11 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
         });
 
         jBGerar.setText("Gerar etiqueta");
+        jBGerar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jBGerarFocusGained(evt);
+            }
+        });
         jBGerar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBGerarActionPerformed(evt);
@@ -305,19 +312,7 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
 
     private void jBGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGerarActionPerformed
         // TODO add your handling code here:
-        double peso = 0;
-        jLResult.setForeground(Color.black);
-        try{
-            peso = Double.valueOf(jTFPeso.getText());
-            etiqueta.setPeso(peso);
-            etiqueta.calculaParametros();
-            jTFValor.setText(String.format("%.2f",etiqueta.getValorFinal()).replace(',', '.'));            
-            jLResult.setText(etiqueta.getCodigoBarras(true));
-        }catch(Exception e){
-            jLResult.setForeground(Color.red);
-            jLResult.setText("ERRO: " + e.getMessage());
-
-        }
+        geraEtiqueta();
 
     }//GEN-LAST:event_jBGerarActionPerformed
 
@@ -333,16 +328,38 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
 
     private void jBImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBImprimirActionPerformed
         // TODO add your handling code here:
-        DriverImpressora driver = new DriverImpressora("/dev/usb/lp0");
+        mandaImprimir();
+    }//GEN-LAST:event_jBImprimirActionPerformed
+
+    private void jBGerarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jBGerarFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBGerarFocusGained
+
+    private void geraEtiqueta() {
+        double peso = 0;
+        jLResult.setForeground(Color.black);
+        try{
+            peso = Double.valueOf(jTFPeso.getText());
+            etiqueta.setPeso(peso);
+            etiqueta.calculaParametros();
+            jTFValor.setText(String.format("%.2f",etiqueta.getValorFinal()).replace(',', '.'));            
+            jLResult.setText(etiqueta.getCodigoBarras(true));
+        }catch(Exception e){
+            jLResult.setForeground(Color.red);
+            jLResult.setText("ERRO: " + e.getMessage());
+
+        }
+    }
+    private void mandaImprimir() {
+        DriverImpressora driver = new DriverImpressora();
         String str = driver.editaLayout(etiqueta);
         driver.escreveArquivo(str,new File("saida"));
         
         PrintService[] printServices = PrintServiceLookup.lookupPrintServices(null, null);
         
         driver.imprime(str,printServices[0]);
-    }//GEN-LAST:event_jBImprimirActionPerformed
-
-    public void trataEventoTextField(java.awt.event.KeyEvent evt, JTextField campoAtual,javax.swing.JComponent componentProx){
+    }
+    private void trataEventoTextField(java.awt.event.KeyEvent evt, JTextField campoAtual,javax.swing.JComponent componentProx){
         int evtcod = evt.getKeyCode();
         if(evtcod == KeyEvent.VK_ENTER) {
             String txt = campoAtual.getText();

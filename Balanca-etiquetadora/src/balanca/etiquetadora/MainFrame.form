@@ -161,6 +161,7 @@
             <Property name="text" type="java.lang.String" value="Gerar etiqueta"/>
           </Properties>
           <Events>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jBGerarFocusGained"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBGerarActionPerformed"/>
           </Events>
         </Component>

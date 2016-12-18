@@ -125,12 +125,23 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
 
         jLabel2.setText("Peso:");
 
+        jTFPreco.setEnabled(false);
+        jTFPreco.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTFPrecoFocusLost(evt);
+            }
+        });
         jTFPreco.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTFPrecoKeyPressed(evt);
             }
         });
 
+        jTFPeso.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTFPesoFocusLost(evt);
+            }
+        });
         jTFPeso.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTFPesoKeyPressed(evt);
@@ -151,6 +162,11 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
 
         jLabel3.setText("Cód. Produto:");
 
+        jTFCodProd.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTFCodProdFocusLost(evt);
+            }
+        });
         jTFCodProd.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTFCodProdKeyPressed(evt);
@@ -168,7 +184,6 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
 
         jLValor.setText("Valor (R$):");
 
-        jTFValor.setEditable(false);
         jTFValor.setEnabled(false);
         jTFValor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -289,14 +304,44 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
     }//GEN-LAST:event_jTFCodProdKeyTyped
 
     private void jTFCodProdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFCodProdKeyReleased
-        // TODO add your handling code here:
+        // TODO add your handling code here:       
+        
     }//GEN-LAST:event_jTFCodProdKeyReleased
 
     private void jTFCodProdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFCodProdKeyPressed
         // TODO add your handling code here:
-        trataEventoTextField(evt,jTFCodProd,jTFPreco);
-        jTFCodProd.setText(jTFCodProd.getText().replace(".",""));
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        trataEventoTextField(evt,jTFCodProd,jTFPreco,true); 
+    }//GEN-LAST:event_jTFCodProdKeyPressed
+
+    private void jBGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGerarActionPerformed
+        // TODO add your handling code here:
+        geraEtiqueta();
+
+    }//GEN-LAST:event_jBGerarActionPerformed
+
+    private void jTFPesoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFPesoKeyPressed
+        // TODO add your handling code here:
+        trataEventoTextField(evt,jTFPeso,jBGerar,false);
+    }//GEN-LAST:event_jTFPesoKeyPressed
+
+    private void jTFPrecoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFPrecoKeyPressed
+        // TODO add your handling code here:
+        trataEventoTextField(evt,jTFPreco,jTFPeso,false);
+    }//GEN-LAST:event_jTFPrecoKeyPressed
+
+    private void jBImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBImprimirActionPerformed
+        // TODO add your handling code here:
+        mandaImprimir();
+    }//GEN-LAST:event_jBImprimirActionPerformed
+
+    private void jBGerarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jBGerarFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBGerarFocusGained
+
+    private void jTFCodProdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFCodProdFocusLost
+        // TODO add your handling code here:
+        corrigeCampoNumerico(jTFCodProd, true);
+        if(!jTFCodProd.getText().isEmpty()){
             LeitorCSV leitor = new LeitorCSV("produtos.csv", ";");
             try{
                 System.out.println(Integer.parseInt(jTFCodProd.getText()));
@@ -308,32 +353,17 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
                 JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
             }
         }
-    }//GEN-LAST:event_jTFCodProdKeyPressed
+    }//GEN-LAST:event_jTFCodProdFocusLost
 
-    private void jBGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGerarActionPerformed
+    private void jTFPrecoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFPrecoFocusLost
         // TODO add your handling code here:
-        geraEtiqueta();
+        corrigeCampoNumerico(jTFPreco,false);
+    }//GEN-LAST:event_jTFPrecoFocusLost
 
-    }//GEN-LAST:event_jBGerarActionPerformed
-
-    private void jTFPesoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFPesoKeyPressed
+    private void jTFPesoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFPesoFocusLost
         // TODO add your handling code here:
-        trataEventoTextField(evt,jTFPeso,jBGerar);
-    }//GEN-LAST:event_jTFPesoKeyPressed
-
-    private void jTFPrecoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFPrecoKeyPressed
-        // TODO add your handling code here:
-        trataEventoTextField(evt,jTFPreco,jTFPeso);
-    }//GEN-LAST:event_jTFPrecoKeyPressed
-
-    private void jBImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBImprimirActionPerformed
-        // TODO add your handling code here:
-        mandaImprimir();
-    }//GEN-LAST:event_jBImprimirActionPerformed
-
-    private void jBGerarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jBGerarFocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jBGerarFocusGained
+        corrigeCampoNumerico(jTFPeso,false);
+    }//GEN-LAST:event_jTFPesoFocusLost
 
     private void geraEtiqueta() {
         double peso = 0;
@@ -359,16 +389,25 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
         
         driver.imprime(str,printServices[0]);
     }
-    private void trataEventoTextField(java.awt.event.KeyEvent evt, JTextField campoAtual,javax.swing.JComponent componentProx){
+    private void trataEventoTextField(java.awt.event.KeyEvent evt, 
+            JTextField campoAtual,
+            javax.swing.JComponent componentProx, 
+            boolean inteiro){
         int evtcod = evt.getKeyCode();
         if(evtcod == KeyEvent.VK_ENTER) {
-            String txt = campoAtual.getText();
-            txt = txt.replace(',','.');
-            txt = txt.replaceAll("[^0-9.]+", "");
-            campoAtual.setText(txt);
+            corrigeCampoNumerico(campoAtual,inteiro);
             componentProx.grabFocus();
         }
     }
+    
+    private void corrigeCampoNumerico(JTextField campo,boolean inteiro){
+        String txt = campo.getText();
+        txt = txt.replace(',','.');
+        txt = txt.replaceAll("[^0-9.]+", "");
+        if(inteiro) txt = txt.replace(".","");
+        campo.setText(txt);
+    }
+    
     /**
      * @param args the command line arguments
      */

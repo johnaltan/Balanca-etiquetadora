@@ -36,7 +36,7 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
     
     public MainFrame() {
         initComponents();       
-        etiqueta = new Etiqueta(new File("ETIQUETA10_1"));
+        etiqueta = new Etiqueta(new File("ETIQUETA_11"));
     } 
 
     public SerialPort getPortaSerial() {

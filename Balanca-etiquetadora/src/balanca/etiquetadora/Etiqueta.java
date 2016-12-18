@@ -30,6 +30,7 @@ public class Etiqueta {
         this.arquivoModelo = arquivoModelo;
     }    
     
+    
     public String getCodigoBarras(boolean comVerificador) {
         int verificador;
         String codBarra = null;

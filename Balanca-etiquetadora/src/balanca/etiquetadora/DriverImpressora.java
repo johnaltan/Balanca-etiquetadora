@@ -55,6 +55,7 @@ public class DriverImpressora {
             while ((linha = br.readLine()) != null) file += linha + "\n";
             Produto produto = etiqueta.getProduto();
             file = file.replace("PESOB", String.format("%.3f kg",etiqueta.getPesoLiquido()).replace('.', ','));
+            file = file.replace("TARAB", String.format("%.3f kg",etiqueta.getPesoEmb()).replace('.', ','));
             file = file.replace("DESCRICAO", produto.getDescricao());
             file = file.replace("VALOR", String.format("%.2f",etiqueta.getValorFinal()).replace('.', ','));
             file = file.replace("PRECO", String.format("%.2f",produto.getPrec()).replace('.', ','));

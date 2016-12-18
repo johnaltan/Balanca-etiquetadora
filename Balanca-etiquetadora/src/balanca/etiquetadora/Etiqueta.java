@@ -47,7 +47,7 @@ public class Etiqueta {
     }
     
     public void calculaParametros() throws Exception{
-        double pesoLiq = peso - pesoEmb;
+        double pesoLiq = this.getPesoLiquido();
         if(pesoLiq < 0) throw new Exception("Peso da embalagem maior que peso do produto!");
         this.valorFinal = pesoLiq*produto.getPrec();
         System.out.println("Valor sem arredondar: " + String.valueOf(this.valorFinal));
@@ -60,6 +60,11 @@ public class Etiqueta {
 
     public void setPesoEmb(double pesoEmb) {
         this.pesoEmb = pesoEmb;
+    }
+    
+    public double getPesoLiquido() {
+        double pesoLiq = peso - pesoEmb;        
+        return pesoLiq;
     }
     
     

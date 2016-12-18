@@ -44,7 +44,7 @@ public class DriverImpressora {
         
     }
     
-    public String editaLayout(Etiqueta etiqueta){
+    public String editaLayout(Etiqueta etiqueta) {
         String file = new String();
         String linha;
         String codPadrao = "789123456789";
@@ -54,7 +54,7 @@ public class DriverImpressora {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(etiqueta.getArquivoModelo()),"UTF8"))) {
             while ((linha = br.readLine()) != null) file += linha + "\n";
             Produto produto = etiqueta.getProduto();
-            file = file.replace("PESOB", String.format("%.3f kg",etiqueta.getPeso()).replace('.', ','));
+            file = file.replace("PESOB", String.format("%.3f kg",etiqueta.getPesoLiquido()).replace('.', ','));
             file = file.replace("DESCRICAO", produto.getDescricao());
             file = file.replace("VALOR", String.format("%.2f",etiqueta.getValorFinal()).replace('.', ','));
             file = file.replace("PRECO", String.format("%.2f",produto.getPrec()).replace('.', ','));

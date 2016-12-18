@@ -5,7 +5,6 @@
  */
 package balanca.etiquetadora;
 
-import jssc.SerialPort;
 
 /**
  *
@@ -13,10 +12,18 @@ import jssc.SerialPort;
  */
 public class DriverBalanca {
     
+    private LeitorSerial leitor;
+
+    public DriverBalanca(LeitorSerial leitor) {
+        this.leitor = leitor;
+    }
+    
+    
+    
     public double getPeso(){
         double peso = 0;
         
-        SerialPort serialPort = new SerialPort("/dev/ttyUSB0");
+        
         
         return peso;
         

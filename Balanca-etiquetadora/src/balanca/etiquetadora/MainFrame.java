@@ -10,28 +10,85 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import javafx.beans.binding.Bindings;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import jssc.SerialPort;
+import jssc.SerialPortEvent;
+import jssc.SerialPortEventListener;
+import jssc.SerialPortException;
+import jssc.SerialPortList;
 
 /**
  *
  * @author paola
  */
-public class MainFrame extends javax.swing.JFrame {
+public class MainFrame extends javax.swing.JFrame implements SerialPortEventListener{
 
     /**
      * Creates new form MainFrame
      */
     private Etiqueta etiqueta;
+    private SerialPort portaSerial;
+    
     
     public MainFrame() {
-        initComponents();
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        initComponents();       
         etiqueta = new Etiqueta(new File("ETIQUETA10_1"));
+    } 
+
+    public SerialPort getPortaSerial() {
+        return portaSerial;
     }
+
+    public void setPortaSerial(SerialPort portaSerial) {
+        this.portaSerial = portaSerial;
+    }
+    
+    
+    
+    @Override
+    public void serialEvent(SerialPortEvent event) {
+        if(event.isRXCHAR()) {
+            try {
+                byte[] buf;
+                buf = portaSerial.readBytes();
+                if(buf != null) {
+                    //System.arraycopy(buf, 0, buffer, buffer.length, buf.length);
+                    System.out.println("Byte[] chegou: ");
+                    for(byte b : buf) System.out.printf("0x%02X ", b);
+                    System.out.println();
+                    for(int i = 0; i < buf.length-1; i++) buf[i] = buf[i+1];
+                    String str = new String(buf, 0, buf.length-2);
+                    str = str.substring(0, 2) + "." + str.substring(2);
+                    jTFPeso.setText(str);
+                }
+            }
+            catch (SerialPortException ex) {
+                System.out.println(ex);
+            }            
+        }
+        else if(event.isCTS()){//If CTS line has changed state
+            if(event.getEventValue() == 1){//If line is ON
+                System.out.println("CTS - ON");
+            }
+            else {
+                System.out.println("CTS - OFF");
+            }
+        }
+        else if(event.isDSR()){///If DSR line has changed state
+            if(event.getEventValue() == 1){//If line is ON
+                System.out.println("DSR - ON");
+            }
+            else {
+                System.out.println("DSR - OFF");
+            }
+        }
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -321,11 +378,39 @@ public class MainFrame extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
+        
+        MainFrame telaPrincipal = new MainFrame();
+        
+        
+        
+        try {
+            String[] portNames = SerialPortList.getPortNames();
+            System.out.println("Portas: ");
+            for(String s : portNames) System.out.println(s);
+            SerialPort serialPort = new SerialPort("COM1");
+            serialPort.openPort();
+            serialPort.setParams(SerialPort.BAUDRATE_9600, 
+                    SerialPort.DATABITS_8, 
+                    SerialPort.STOPBITS_2, 
+                    SerialPort.PARITY_NONE);
+            
+            int mask = SerialPort.MASK_RXCHAR + SerialPort.MASK_CTS + SerialPort.MASK_DSR;//Prepare mask
+            serialPort.setEventsMask(mask);//Set mask
+            telaPrincipal.setPortaSerial(serialPort);
+            serialPort.addEventListener(telaPrincipal);//Add SerialPortEventListener
+                        
+        }catch(SerialPortException e){
+            e.printStackTrace();
+        }
+        
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainFrame().setVisible(true);
+                Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+                telaPrincipal.setLocation(dim.width/2-telaPrincipal.getSize().width/2, dim.height/2-telaPrincipal.getSize().height/2);
+                telaPrincipal.setVisible(true);
             }
         });
     }

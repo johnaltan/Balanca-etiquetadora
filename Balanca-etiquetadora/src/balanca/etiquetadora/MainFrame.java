@@ -9,7 +9,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import javafx.beans.binding.Bindings;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
@@ -32,12 +35,37 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
      */
     private Etiqueta etiqueta;
     private SerialPort portaSerial;
+    private PrintService[] printServices;
+    private int printServiceID;
+    
     
     
     public MainFrame() {
         initComponents();       
         etiqueta = new Etiqueta(new File("ETIQUETA_11"));
+        this.printServices = PrintServiceLookup.lookupPrintServices(null, null);
+        this.printServiceID = 0;
     } 
+
+    public PrintService[] getPrintServices() {
+        return printServices;
+    }
+
+    public void setPrintServices(PrintService[] printServices) {
+        this.printServices = printServices;
+    }
+    
+    
+
+    public int getPrintServiceID() {
+        return printServiceID;
+    }
+
+    public void setPrintServiceID(int printServiceID) {
+        this.printServiceID = printServiceID;
+    }
+    
+    
 
     public SerialPort getPortaSerial() {
         return portaSerial;
@@ -419,9 +447,7 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
         String str = driver.editaLayout(etiqueta);
         driver.escreveArquivo(str,new File("saida"));
         
-        PrintService[] printServices = PrintServiceLookup.lookupPrintServices(null, null);
-        
-        driver.imprime(str,printServices[0]);
+        driver.imprime(str,printServices[printServiceID]);
     }
     private void trataEventoTextField(java.awt.event.KeyEvent evt, 
             JTextField campoAtual,
@@ -472,16 +498,28 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
         
         MainFrame telaPrincipal = new MainFrame();
         
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("idImpressora"));
+            int i = Integer.parseInt(br.readLine());
+            if (i < telaPrincipal.getPrintServices().length) {
+                telaPrincipal.setPrintServiceID(i);
+                System.out.println("PrintService selecionado: " + String.valueOf(i));
+            }
+            else throw new Exception("ID maior que o numero de Print Services disponiveis!");
+            
+        }catch (IOException e) {
+            e.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         
         
         try {
             
             PrintService[] printServices = PrintServiceLookup.lookupPrintServices(null, null);
             System.out.println("Numero de processos de impressao: " + printServices.length);
-        
-       
-            for (PrintService printer : printServices)
-                System.out.println("Impressora: " + printer.getName());
+               
+            for (PrintService printer : printServices) System.out.println("Impressora: " + printer.getName());
             
             String[] portNames = SerialPortList.getPortNames();
             System.out.println("Portas: ");
